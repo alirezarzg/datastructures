@@ -35,12 +35,15 @@ extension LinkedList {
     }
     
     func addAfterTail(_ node: Node<T>) {
-        var h = head
-        while h?.next != nil {
-            h = h?.next
-        }
-        h?.next = node
+        let tail = findPreTail()?.next
+        tail?.next = node
         node.next = nil
+//        var h = head
+//        while h?.next != nil {
+//            h = h?.next
+//        }
+//        h?.next = node
+//        node.next = nil
     }
     func removeHead() -> Node<T>? {
         let pHead = self.head
@@ -49,7 +52,19 @@ extension LinkedList {
     }
     
     func removeTail() -> Node<T>? {
-        return nil
+        let preTail = findPreTail()
+        let tail = preTail?.next
+        preTail?.next = nil
+        return tail
+    }
+    
+    func findPreTail() -> Node<T>? {
+        guard head != nil else { return nil }
+        var h = head
+        while h?.next?.next != nil {
+            h = h?.next
+        }
+        return h
     }
 }
 
@@ -66,9 +81,15 @@ func main() {
     print(lL)
     
     lL.addAfterTail(Node(4))
+    lL.addAfterTail(Node(5))
+    lL.addAfterTail(Node(6))
+    lL.addAfterTail(Node(7))
     print(lL)
     
     lL.removeHead()
+    print(lL)
+    
+    lL.removeTail()
     print(lL)
 }
 
